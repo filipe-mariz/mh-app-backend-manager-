@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UserConfirmation } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { users } from './entities/user.entity';
 import { QueryData } from '../../../utils/global/globalInterface';
@@ -9,10 +9,12 @@ import { ProductsService } from '../usersConfirmation/usersConfirmation.service'
 
 @Injectable()
 export class UsersService {
+  private readonly repository = this.usersRepository.scope('defaultOptions');
+
   constructor(
     @InjectModel(users)
-    private usersRepository: typeof users,
-    private readonly confirmation: ProductsService
+    private readonly usersRepository: typeof users,
+    private readonly confirmation: ProductsService,
   ) { };
 
   public async create(createUserDto: CreateUserDto) {
@@ -22,7 +24,7 @@ export class UsersService {
       }
     }
 
-    const user: ICreateUserResponse = await this.usersRepository.create({
+    const user: ICreateUserResponse = await this.repository.create({
       name: createUserDto.name,
       email: createUserDto.email,
       cpf: createUserDto.cpf,
@@ -31,37 +33,47 @@ export class UsersService {
     });
 
     const repoUserConfirmation = await this.confirmation.create({
-      confirmationCode: '123456',
       userId: user.id,
       email: createUserDto.email
-    })
+    });
+
+    return { user, repoUserConfirmation };
+  };
+
+  public async UserConfirmation(confirmation: UserConfirmation): Promise<IUserConfirmation> {
+    const confirmationData = await this.confirmation.findOne(confirmation.email);
+
+    if (confirmationData.confirmationCode !== confirmation.confirmationCode) {
+      return {
+        code: 'BAD_TRY',
+        message: 'code not match'
+      }
+    }
 
     return {
-      user,
-      repoUserConfirmation
-    }
+      code: 'VALIDATION_SUCCESS'
+    };
+  }
+
+
+  findAll(): Promise<users[]> {
+    return this.repository.findAll<users>();
   };
 
-  findAll(filter: QueryData): Promise<users[]> {
-    return this.usersRepository.scope('defaultOptions').findAll<users>({
+  findOne(filter: QueryData): Promise<users> {
+    return this.repository.findOne<users>({
       where: { ...filter }
     });
   };
 
-  findOne(filter: QueryData) {
-    return this.usersRepository.scope('defaultOptions').findOne<users>({
-      where: { ...filter }
-    });
-  };
-
-  update(updateUserDto: UpdateUserDto, filter: QueryData) {
-    return this.usersRepository.update<users>(updateUserDto, {
+  update(updateUserDto: UpdateUserDto, filter: QueryData): Promise<[affectedCount: number]> {
+    return this.repository.update<users>(updateUserDto, {
       where: { ...filter },
     });
   };
 
-  remove(filter: QueryData) {
-    return this.usersRepository.destroy<users>({
+  remove(filter: QueryData): Promise<number> {
+    return this.repository.destroy<users>({
       where: { ...filter }
     });
   };

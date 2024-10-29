@@ -1,5 +1,5 @@
 export class CreateProductDto {
     userId: number;
-    confirmationCode: string;
+    // confirmationCode: string;
     email: string;
 }

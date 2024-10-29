@@ -1,10 +1,8 @@
-import { Controller, Get, Post, Body, Param, Delete, Query, Put, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { CreateUserDto, UserConfirmation } from './dto/create-user.dto';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { BasesController } from '../../base/controllers';
-import { QueryData } from '../../../utils/global/globalInterface';
-import { AuthGuard } from '../../middlewares/auth/auth.guard';
 
 @Controller('users')
 export class UsersController extends BasesController {
@@ -19,39 +17,40 @@ export class UsersController extends BasesController {
   };
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
+  public async create(@Body() createUserDto: CreateUserDto) {
     try {
       const resp = await this.usersService.create(createUserDto);
-
       return this.handleResponse(resp);
     } catch (error) {
       return this.handleError(error);
     }
   };
 
-  @Get()
-  async findAll(@Query() filter: QueryData) {
+  @Post('confirmation')
+  public async userConfirmation(@Body() createUserDto: UserConfirmation) {
     try {
-      const resp = await this.usersService.findAll(filter);
+      const resp = await this.usersService.UserConfirmation(createUserDto);
+      return resp;
+    } catch (error) {
+      return this.handleError(error);
+    }
+  }
 
-      return this.handleResponse(resp);
+  @Get()
+  async findAll() {
+    try {
+      const resp = await this.usersService.findAll();
+      return resp;
     } catch (error) {
       return this.handleError(error);
     }
   };
 
   @Get(':id')
-  public async findOne(
-    @Param('id') id: number,
-    @Query() filter: QueryData
-  ) {
+  public async findOne(@Param('id') id: number) {
     try {
-      const resp = await this.usersService.findOne({
-        id,
-        company_id: filter.company_id
-      });
-
-      return this.handleResponse(resp);
+      const resp = await this.usersService.findOne({ id });
+      return resp;
     } catch (error) {
       return this.handleError(error);
     };
@@ -60,31 +59,20 @@ export class UsersController extends BasesController {
   @Put(':id')
   public async update(
     @Param('id') id: number,
-    @Query() filter: QueryData,
     @Body() updateUserDto: UpdateUserDto
   ) {
     try {
-      const resp = await this.usersService.update(updateUserDto, {
-        id,
-        company_id: filter.company_id
-      });
-
-      return this.handleResponse(resp);
+      const resp = await this.usersService.update(updateUserDto, { id });
+      return resp;
     } catch (error) {
       return this.handleError(error);
     }
   };
 
   @Delete(':id')
-  public async remove(
-    @Param('id') id: number,
-    @Query() filter: QueryData
-  ) {
+  public async remove(@Param('id') id: number) {
     try {
-      return this.usersService.remove({
-        id,
-        company_id: filter.company_id
-      });
+      return this.usersService.remove({ id });
     } catch (error) {
       return this.handleError(error);
     };

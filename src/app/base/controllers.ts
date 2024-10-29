@@ -1,18 +1,25 @@
 export class BasesController {
-    handleResponse(data: object) {
-        return data
-    }
+	handleResponse(data: object) {
+		return data
+	}
 
-    handleExeption(message: string) {
-        return {
-            skip: true,
-            type: message
-        }
-    }
+	handleExeption(message: string) {
+		return {
+			skip: true,
+			type: message
+		}
+	}
 
-    handleError({ response }) {
-        return response.status(400).json({
-            message: 'Some unexpected error happened'
-        })
-    }
+	handleError(dataError: any) {
+		if (dataError?.errors) {
+			return {
+				code: 'BAD_REQUEST',
+				name: dataError.name,
+				message: dataError.errors[0].message,
+				type: dataError.errors[0].type,
+			}
+		}
+
+		return dataError
+	}
 }

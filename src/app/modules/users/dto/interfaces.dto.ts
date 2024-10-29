@@ -1,8 +1,13 @@
 interface ICreateUserResponse {
-    id: number
-    name: string
-    cpf: string
-    whatsapp: string
-    email: string
-    password: string
+	id: number
+	name: string
+	cpf: string
+	whatsapp: string
+	email: string
+	password: string
+}
+
+interface IUserConfirmation {
+	code: 'BAD_TRY' | 'VALIDATION_SUCCESS'
+	message?: string
 }

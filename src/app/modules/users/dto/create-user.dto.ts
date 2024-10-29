@@ -6,3 +6,8 @@ export class CreateUserDto {
     password: string;
     passwordConfirmation: string;
 };
+
+export class UserConfirmation {
+    email: string;
+    confirmationCode: string;
+}

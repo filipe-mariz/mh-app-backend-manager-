@@ -4,6 +4,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { UsersConfirmation } from './schema/usersConfirmation.schema';
 import { Model } from 'mongoose';
+import { gerarCodigo } from './utils/generateCode'
 
 @Injectable()
 export class ProductsService {
@@ -13,12 +14,18 @@ export class ProductsService {
   ) {}
 
   public create(createProductDto: CreateProductDto) {
-    const createProduct = new this.productRepository(createProductDto)
+    const createProduct = new this.productRepository({
+      confirmationCode: gerarCodigo(),
+      ...createProductDto
+    })
+
     return createProduct.save();
   }
 
-  findOne(id: string) {
-    return this.productRepository.findById(id).exec();
+  findOne(email: string) {
+    return this.productRepository.findOne({
+      email
+    }).exec();
   }
 
   remove(id: string) {
