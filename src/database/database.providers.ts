@@ -1,8 +1,8 @@
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
 import { users } from '../app/modules/users/entities/user.entity';
-import { api_tokens } from '../app/modules/login/entities/login.entity';
 import { MongooseModule } from '@nestjs/mongoose';
+import { api_tokens } from 'src/app/modules/users/entities/login.entity';
 
 const models = [users, api_tokens]
 

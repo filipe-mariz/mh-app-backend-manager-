@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { databaseProviders, mongooseModule, sequelizeModule } from './database/database.providers';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './app/modules/users/users.module';
-import { LoginModule } from './app/modules/login/login.module';
-import { ProductsModule } from './app/modules/usersConfirmation/usersConfirmation.module';
+import { ProductsModule } from './app/modules/users/modules/usersConfirmation.module';
+import { UsersModule } from './app/modules/users/modules/users.module';
+import { LoginModule } from './app/modules/users/modules/login.module';
 
 @Module({
   imports: [

@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { LoginService } from './login.service';
-import { BasesController } from '../../base/controllers';
+import { BasesController } from '../../../base/controllers';
+import { LoginService } from '../services/login.service';
 
 interface Login {
   email: string;

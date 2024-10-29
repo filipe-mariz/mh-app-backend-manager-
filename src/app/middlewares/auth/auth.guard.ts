@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { api_tokens } from '../../modules/login/entities/login.entity';
+import { api_tokens } from 'src/app/modules/users/entities/login.entity';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,9 +14,7 @@ export class AuthGuard implements CanActivate {
     if (!req?.headers?.token) return false
 
     const is_auth = await api_tokens.findOne({
-      where: {
-        token: req.headers.token
-      },
+      where: { token: req.headers.token },
       raw: true
     });
 

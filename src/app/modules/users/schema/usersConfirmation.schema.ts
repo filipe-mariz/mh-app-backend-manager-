@@ -14,6 +14,9 @@ export class UsersConfirmation {
     @Prop()
     confirmationCode: string;
 
+    @Prop({ default: false })
+    isConfirmed: boolean;
+
     @Prop()
     email: string;
 }

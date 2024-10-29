@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateLoginDto } from './dto/create-login.dto';
-import { users } from '../users/entities/user.entity';
-import { api_tokens } from './entities/login.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcrypt';
+import { api_tokens } from '../entities/login.entity';
+import { users } from '../entities/user.entity';
 
 interface Login {
   email: string;

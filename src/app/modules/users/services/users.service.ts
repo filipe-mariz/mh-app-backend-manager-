@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { CreateUserDto, UserConfirmation } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { users } from './entities/user.entity';
-import { QueryData } from '../../../utils/global/globalInterface';
+import { CreateUserDto, UserConfirmation } from '../dto/create-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
+import { users } from '../entities/user.entity';
+import { QueryData } from '../../../../utils/global/globalInterface';
 import * as bcrypt from 'bcrypt';
-import { ProductsService } from '../usersConfirmation/usersConfirmation.service';
+import { ProductsService } from './usersConfirmation.service';
 
 @Injectable()
 export class UsersService {

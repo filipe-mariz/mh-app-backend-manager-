@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductDto } from '../dto/create-product.dto';
+import { UpdateProductDto } from '../dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { UsersConfirmation } from './schema/usersConfirmation.schema';
+import { UsersConfirmation } from '../schema/usersConfirmation.schema';
 import { Model } from 'mongoose';
-import { gerarCodigo } from './utils/generateCode'
+import { gerarCodigo } from '../utils/generateCode'
 
 @Injectable()
 export class ProductsService {
