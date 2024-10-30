@@ -6,6 +6,8 @@ import { users } from '../entities/user.entity';
 import { QueryData } from '../../../../utils/global/globalInterface';
 import * as bcrypt from 'bcrypt';
 import { ProductsService } from './usersConfirmation.service';
+import { senderMessage } from '../email/whatsapp.send';
+import { RedisCacheRepository } from '../../redis/redis.repository';
 
 @Injectable()
 export class UsersService {
@@ -15,12 +17,14 @@ export class UsersService {
     @InjectModel(users)
     private readonly usersRepository: typeof users,
     private readonly confirmation: ProductsService,
+    private readonly cache: RedisCacheRepository
   ) { };
 
   public async create(createUserDto: CreateUserDto) {
     if (createUserDto.password !== createUserDto.passwordConfirmation) {
       return {
-        exeption: 'PASSWORD_NOT_MATCH'
+        code: 'PASSWORD_NOT_MATCH',
+        message: 'password and passworConfirmation does not same'
       }
     }
 
@@ -37,6 +41,8 @@ export class UsersService {
       email: createUserDto.email
     });
 
+    //Implementar o envio de código para o cliente
+    // senderMessage()
     return { user, repoUserConfirmation };
   };
 

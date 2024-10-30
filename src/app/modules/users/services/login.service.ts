@@ -24,18 +24,16 @@ export class LoginService {
       attributes: ['password', 'id', 'company_id']
     });
 
-    if (!user) throw new Error('INVALID_CREDENTIALS');
-
     const isPasswordValid = bcrypt.compareSync(data.password, user.password);
-
-    if (!isPasswordValid) throw new Error('INVALID_CREDENTIALS');
-
-    const dataToken = JSON.stringify(data);
-
-    const token = bcrypt.hashSync(dataToken, 10)
+    if (!user || !isPasswordValid) {
+      return {
+        code: 'INVALID_CREDENTIALS',
+        message: 'email or password does not match'
+      }
+    }
 
     const resp = await this.apiTokenRepository.create<api_tokens>({
-      token,
+      token: bcrypt.hashSync(JSON.stringify(data), 100),
       user_id: user.id
     });
 
