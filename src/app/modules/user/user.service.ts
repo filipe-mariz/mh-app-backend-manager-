@@ -25,7 +25,7 @@ export class UserService {
       }
     }
 
-    const user: ICreateUserResponse = await this.repository.create({
+    const user = await this.repository.create({
       name: createUserInput.name,
       email: createUserInput.email,
       cpf: createUserInput.cpf,
@@ -47,10 +47,14 @@ export class UserService {
   }
 
   update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+    return this.repository.update<users>(updateUserInput, {
+      where: { id },
+    });
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    return this.repository.destroy<users>({
+      where: { id }
+    });
   }
 }
