@@ -3,15 +3,23 @@
 # ------------------------------------------------------
 
 type users {
+  id: Float!
   name: String!
   email: String!
   cpf: String!
   whatsapp: String!
   password: String!
+  deleted_at: DateTime!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
-  user(id: Int!): users!
+  findAll: [users!]!
+  findOne(id: Int!): users!
 }
 
 type Mutation {
@@ -26,6 +34,7 @@ input CreateUserInput {
   cpf: String!
   whatsapp: String!
   password: String!
+  passwordConfirmation: String!
 }
 
 input UpdateUserInput {
@@ -34,5 +43,6 @@ input UpdateUserInput {
   cpf: String
   whatsapp: String
   password: String
+  passwordConfirmation: String
   id: Int!
 }

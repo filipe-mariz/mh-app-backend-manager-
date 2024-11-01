@@ -13,14 +13,14 @@ export class UserResolver {
     return this.userService.create(body);
   }
 
-  @Query(() => [users], { name: 'user' })
+  @Query(() => [users])
   findAll() {
     return this.userService.findAll();
   }
 
-  @Query(() => users, { name: 'user' })
+  @Query(() => users)
   findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.findOne(id);
+    return this.userService.findOne({ id });
   }
 
   @Mutation(() => users)

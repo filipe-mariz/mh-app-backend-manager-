@@ -6,6 +6,7 @@ import { defaulTableSettings, primaryKey } from 'src/utils/global/GlobalSequeliz
 @Table(defaulTableSettings)
 export class users extends Model {
   @Column(primaryKey)
+  @Field()
   id: number;
 
   @Column
@@ -29,5 +30,6 @@ export class users extends Model {
   password: string;
 
   @Column
+  @Field()
   deleted_at: Date;
 }

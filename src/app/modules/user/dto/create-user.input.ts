@@ -16,4 +16,7 @@ export class CreateUserInput {
 
   @Field()
   password: string;
+
+  @Field()
+  passwordConfirmation: string;
 }
