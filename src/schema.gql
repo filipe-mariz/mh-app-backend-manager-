@@ -1,0 +1,38 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type users {
+  name: String!
+  email: String!
+  cpf: String!
+  whatsapp: String!
+  password: String!
+}
+
+type Query {
+  user(id: Int!): users!
+}
+
+type Mutation {
+  createUser(body: CreateUserInput!): users!
+  updateUser(updateUserInput: UpdateUserInput!): users!
+  removeUser(id: Int!): users!
+}
+
+input CreateUserInput {
+  name: String!
+  email: String!
+  cpf: String!
+  whatsapp: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  name: String
+  email: String
+  cpf: String
+  whatsapp: String
+  password: String
+  id: Int!
+}
