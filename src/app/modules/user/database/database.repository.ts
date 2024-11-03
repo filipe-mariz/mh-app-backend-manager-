@@ -5,8 +5,12 @@ import { InjectModel } from '@nestjs/sequelize';
 import { users } from '../entities/user.entity';
 
 @Injectable()
-export class UsersRepository extends BaseRepository implements UserDatabase {
-  constructor(@InjectModel(users) usersRepository: typeof users) {
-    super(usersRepository)
+export class UsersRepository
+  extends BaseRepository
+  implements UserDatabase {
+  constructor(
+    @InjectModel(users) usersRepository: typeof users
+  ) {
+    super(usersRepository, 'USERS')
   }
 }

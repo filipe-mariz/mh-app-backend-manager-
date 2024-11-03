@@ -24,11 +24,11 @@ export class UserResolver {
   }
 
   @Mutation(() => users)
-  public updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+  public async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.userService.update({ id: updateUserInput.id }, updateUserInput);
   }
 
-  @Mutation(() => users)
+  @Mutation(() => [users])
   public removeUser(@Args('id', { type: () => Int }) id: number) {
     return this.userService.remove({ id });
   }

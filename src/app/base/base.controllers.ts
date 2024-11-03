@@ -1,6 +1,8 @@
 export class BasesController {
-	handleResponse(data: object) {
-		return data
+	handleResponse(data: any) {
+		if(data.errors) {
+			return data.errors.map(error => {error.message })
+		}
 	}
 
 	handleExeption(message: string) {

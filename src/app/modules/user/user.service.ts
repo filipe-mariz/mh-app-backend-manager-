@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
 
 import * as bcrypt from 'bcrypt';
 
@@ -11,14 +10,7 @@ import { UserDatabase } from './database/user.database';
 
 @Injectable()
 export class UserService {
-  private readonly repository = this.usersRepository.scope('defaultOptions');
-
-  constructor(
-    @InjectModel(users)
-    private readonly usersRepository: typeof users,
-
-    private database: UserDatabase
-  ) { };
+  constructor(private readonly database: UserDatabase) { };
 
   public async create(createUserInput: CreateUserInput) {
     if (createUserInput.password !== createUserInput.passwordConfirmation) {
@@ -40,25 +32,19 @@ export class UserService {
     return user;
   }
 
-  public findAll() {
-    return this.repository.findAll<users>();
+  public async findAll() {
+    return this.database.findAll<users>();
   }
 
   public findOne(filter: QueryData) {
-    return this.repository.findOne<users>({
-      where: { id: filter.id }
-    });
+    return this.database.findOne<users>(filter);
   }
 
   public update(filter: QueryData, updateUserInput: UpdateUserInput) {
-    return this.repository.update<users>(updateUserInput, {
-      where: { id: filter.id },
-    });
+    return this.database.update<users>(updateUserInput, filter);
   }
 
   public remove(filter: QueryData) {
-    return this.repository.destroy<users>({
-      where: { id: filter.id }
-    });
+    return this.database.remove<users>(filter);
   }
 }

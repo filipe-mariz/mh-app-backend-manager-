@@ -1,23 +1,59 @@
 import { Injectable } from '@nestjs/common';
-import { QueryData } from 'src/utils/global/globalInterface';
-import { users } from '../modules/user/entities/user.entity';
+import Redis from "ioredis";
 
 @Injectable()
 export class BaseRepository {
-  private repository: any
+	private readonly client: Redis;
+  private repository: any;
+  private cacheKey: string;
 
-  constructor(model: any) {
-    this.repository = model
+  constructor(model: any, cacheKey: string) {
+		this.client = new Redis({ host: 'localhost', port: 6379 });
+    this.repository = model.scope('defaultOptions');
+    this.cacheKey = cacheKey;
   }
 
-  create(data: any) {
-    return this.repository.create(data)
+  public async create(data: any) {
+    await this.client.del(this.cacheKey);
+    const response = await this.repository.create(data);
+    return response;
   }
 
-  findOne(filter: QueryData): Promise<users[]> {
-    throw new Error('Method not implemented.');
+  public async findAll(): Promise<any> {
+    const cache = await this.client.get(this.cacheKey);
+    if (cache) {
+      return JSON.parse(cache);
+    }
+
+    const response = await this.repository.findAll();
+    await this.client.set(this.cacheKey, JSON.stringify(response));
+
+    return response;
   }
-  findAll(): Promise<users[]> {
-    throw new Error('Method not implemented.');
+
+  public async findOne(where: any): Promise<any> {
+    const cache = await this.client.get(`${this.cacheKey}_${where.id.toString()}`);
+    if (cache) {
+      return JSON.parse(cache);
+    }
+
+    const response = await this.repository.findOne({ where });
+    await this.client.set(`${this.cacheKey}_${response.id.toString()}`, JSON.stringify(response));
+
+    return response;
+  }
+
+  public async update(data: object, where: any) {
+    await this.client.del(this.cacheKey);
+    await this.repository.update(data, { where });
+
+    return await this.repository.findOne({ where });
+  }
+
+  public async remove(where: any) {
+    await this.client.del(this.cacheKey);
+    await this.repository.destroy({ where })
+
+    return await this.repository.findAll();
   }
 }
