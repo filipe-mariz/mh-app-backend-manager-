@@ -20,19 +20,16 @@ export class UserService {
       }
     }
 
-    const user = await this.database.create({
+    return this.database.create({
       name: createUserInput.name,
       email: createUserInput.email,
       cpf: createUserInput.cpf,
       whatsapp: createUserInput.whatsapp,
       password: bcrypt.hashSync(createUserInput.password, 10),
-      passwordConfirmation: ''
     });
-
-    return user;
   }
 
-  public async findAll() {
+  public findAll() {
     return this.database.findAll<users>();
   }
 
