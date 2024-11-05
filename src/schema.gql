@@ -57,6 +57,7 @@ input CreateUserInput {
 }
 
 input LoginUser {
+  authType: String!
   userId: String!
   password: String!
 }
