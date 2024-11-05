@@ -7,9 +7,8 @@ import { v1 as uuidv1 } from 'uuid'
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { users } from './entities/user.entity';
-import { QueryData } from 'src/utils/global/globalInterface';
+import { CreateGrpcClientDto, IAuthProto, QueryData } from 'src/utils/global/globalInterface';
 import { UserDatabase } from './database/user.database';
-import { CreateGrpcClientDto, IAuthProto } from './dto/login-user.input';
 
 @Injectable()
 export class UserService {

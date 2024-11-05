@@ -1,18 +1,32 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, Inject } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { Observable } from 'rxjs';
+import { ClientGrpc } from '@nestjs/microservices';
+import { Observable, firstValueFrom } from 'rxjs';
+import { IAuthProto } from 'src/utils/global/globalInterface';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
-    const ctx = GqlExecutionContext.create(context).getContext();
-    console.log(ctx.headers.token)
-    const request = context.switchToHttp().getRequest();
+  private authService: IAuthProto;
 
-    return this.validateRequest(request);
+  constructor(
+    @Inject('AUTH_SERVICE')
+    private readonly client: ClientGrpc,
+  ) {
+    this.authService = this.client.getService('AuthenticationService');
   }
 
-  async validateRequest(req: any): Promise<boolean> {
-    return true;
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
+    const ctx = GqlExecutionContext.create(context).getContext();
+    return this.validateRequest(ctx.headers.token);
+  }
+
+  private async validateRequest(data: string) {
+    const response = await firstValueFrom(
+      this.authService.ValidToken({
+        token: data
+      })
+    );
+
+    return response?.authorization ? true : false;
   }
 }

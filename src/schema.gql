@@ -27,7 +27,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(body: CreateUserInput!): users!
+  createUser(input: CreateUserInput!): users!
   loginUser(login: LoginUser!): AuthorizationToken!
   updateUser(updateUserInput: UpdateUserInput!): users!
   removeUser(id: Int!): [users!]!
