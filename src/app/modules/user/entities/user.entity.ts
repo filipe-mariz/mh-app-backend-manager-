@@ -1,6 +1,7 @@
 import { ObjectType, Field} from '@nestjs/graphql';
-import { Table, Column, Model } from 'sequelize-typescript';
+import { Table, Column, Model, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { defaulTableSettings, primaryKey } from 'src/utils/global/GlobalSequelize';
+import { agency } from '../../mission-agency/entities/mission-agency.entity';
 
 @ObjectType()
 @Table(defaulTableSettings)
@@ -28,6 +29,15 @@ export class users extends Model {
   @Column
   @Field()
   password: string;
+
+  @ForeignKey(() => agency)
+  @Column({ allowNull: true })
+  @Field({ nullable: true })
+  mission_agency_id?: string;
+
+  @BelongsTo(() => agency)
+  @Field(() => agency, { nullable: true })
+  missionAgency?: agency;
 
   @Column
   @Field()

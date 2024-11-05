@@ -6,6 +6,7 @@ import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './app/modules/user/user.module';
 import { AuthModule } from './app/middlewares/auth/auth.module';
+import { MissionAgencyModule } from './app/modules/mission-agency/mission-agency.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { AuthModule } from './app/middlewares/auth/auth.module';
     sequelizeModule,
     mongooseModule,
     UserModule,
-    AuthModule
+    AuthModule,
+    MissionAgencyModule
   ],
   controllers: [AppController],
   providers: [

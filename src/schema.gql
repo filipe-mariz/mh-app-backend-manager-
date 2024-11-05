@@ -2,6 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type agency {
+  id: String!
+  name: String!
+  email: String!
+  cnpj: String!
+  bio: String!
+}
+
 type users {
   id: String!
   name: String!
@@ -9,6 +17,8 @@ type users {
   cpf: String!
   whatsapp: String!
   password: String!
+  mission_agency_id: String
+  missionAgency: agency
   deleted_at: DateTime!
 }
 
@@ -24,6 +34,7 @@ type AuthorizationToken {
 type Query {
   findAll: [users!]!
   findOne(id: Int!): users!
+  missionAgency(id: Int!): agency!
 }
 
 type Mutation {
@@ -31,6 +42,9 @@ type Mutation {
   loginUser(login: LoginUser!): AuthorizationToken!
   updateUser(updateUserInput: UpdateUserInput!): users!
   removeUser(id: Int!): [users!]!
+  createMissionAgency(createMissionAgencyInput: CreateMissionAgencyInput!): agency!
+  updateMissionAgency(updateMissionAgencyInput: UpdateMissionAgencyInput!): agency!
+  removeMissionAgency(id: Int!): agency!
 }
 
 input CreateUserInput {
@@ -54,5 +68,16 @@ input UpdateUserInput {
   whatsapp: String
   password: String
   passwordConfirmation: String
+  id: Int!
+}
+
+input CreateMissionAgencyInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateMissionAgencyInput {
+  """Example field (placeholder)"""
+  exampleField: Int
   id: Int!
 }
