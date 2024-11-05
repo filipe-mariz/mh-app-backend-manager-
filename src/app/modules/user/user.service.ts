@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
 
 import * as bcrypt from 'bcrypt';
 import { v1 as uuidv1 } from 'uuid'
@@ -8,10 +9,19 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { users } from './entities/user.entity';
 import { QueryData } from 'src/utils/global/globalInterface';
 import { UserDatabase } from './database/user.database';
+import { CreateGrpcClientDto, IAuthProto } from './dto/login-user.input';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly database: UserDatabase) { };
+  private authService: IAuthProto;
+
+  constructor(
+    @Inject('AUTH_SERVICE')
+    private readonly client: ClientGrpc,
+    private readonly database: UserDatabase,
+  ) {
+    this.authService = this.client.getService('AuthenticationService');
+  };
 
   public async create(createUserInput: CreateUserInput) {
     if (createUserInput.password !== createUserInput.passwordConfirmation) {
@@ -29,6 +39,10 @@ export class UserService {
       whatsapp: createUserInput.whatsapp,
       password: bcrypt.hashSync(createUserInput.password, 10),
     });
+  }
+
+  public async login(logindData: CreateGrpcClientDto) {
+    return this.authService.Create(logindData);
   }
 
   public findAll() {

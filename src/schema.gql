@@ -17,6 +17,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type AuthorizationToken {
+  token: String!
+}
+
 type Query {
   findAll: [users!]!
   findOne(id: Int!): users!
@@ -24,6 +28,7 @@ type Query {
 
 type Mutation {
   createUser(body: CreateUserInput!): users!
+  loginUser(login: LoginUser!): AuthorizationToken!
   updateUser(updateUserInput: UpdateUserInput!): users!
   removeUser(id: Int!): [users!]!
 }
@@ -35,6 +40,11 @@ input CreateUserInput {
   whatsapp: String!
   password: String!
   passwordConfirmation: String!
+}
+
+input LoginUser {
+  userId: String!
+  password: String!
 }
 
 input UpdateUserInput {
