@@ -41,7 +41,12 @@ export class UserService {
   }
 
   public async login(logindData: CreateGrpcClientDto) {
-    return this.authService.Create(logindData);
+    return this.authService.Create({
+      siglaApp: 'mh1-mb',
+      authType: logindData.authType,
+      password: logindData.password,
+      userId: logindData.userId,
+    });
   }
 
   public findAll() {
