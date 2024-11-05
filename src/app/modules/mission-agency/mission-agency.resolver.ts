@@ -6,30 +6,30 @@ import { UpdateMissionAgencyInput } from './dto/update-mission-agency.input';
 
 @Resolver(() => agency)
 export class MissionAgencyResolver {
-  constructor(private readonly missionAgencyService: MissionAgencyService) {}
+  constructor(private readonly missionAgencyService: MissionAgencyService) { }
 
   @Mutation(() => agency)
-  createMissionAgency(@Args('createMissionAgencyInput') createMissionAgencyInput: CreateMissionAgencyInput) {
-    return this.missionAgencyService.create(createMissionAgencyInput);
+  public createMissionAgency(@Args('body') body: CreateMissionAgencyInput) {
+    return this.missionAgencyService.create(body);
   }
 
-  @Query(() => [agency], { name: 'missionAgency' })
-  findAll() {
+  @Query(() => [agency])
+  public findAllAgency() {
     return this.missionAgencyService.findAll();
   }
 
-  @Query(() => agency, { name: 'missionAgency' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.missionAgencyService.findOne(id);
+  @Query(() => agency)
+  public findOne(@Args('id', { type: () => Int }) id: number) {
+    return this.missionAgencyService.findOne({ id });
   }
 
   @Mutation(() => agency)
-  updateMissionAgency(@Args('updateMissionAgencyInput') updateMissionAgencyInput: UpdateMissionAgencyInput) {
-    return this.missionAgencyService.update(updateMissionAgencyInput.id, updateMissionAgencyInput);
+  public updateMissionAgency(@Args('updateMissionAgencyInput') updateMissionAgencyInput: UpdateMissionAgencyInput) {
+    return this.missionAgencyService.update({ id: updateMissionAgencyInput.id }, updateMissionAgencyInput);
   }
 
   @Mutation(() => agency)
-  removeMissionAgency(@Args('id', { type: () => Int }) id: number) {
-    return this.missionAgencyService.remove(id);
+  public removeMissionAgency(@Args('id', { type: () => Int }) id: number) {
+    return this.missionAgencyService.remove({ id });
   }
 }

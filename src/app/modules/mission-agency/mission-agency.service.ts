@@ -1,26 +1,37 @@
 import { Injectable } from '@nestjs/common';
+
+import { v1 as uuidv1 } from 'uuid'
+
 import { CreateMissionAgencyInput } from './dto/create-mission-agency.input';
 import { UpdateMissionAgencyInput } from './dto/update-mission-agency.input';
+import { AgencyDatabase } from './database/agency.database';
+import { agency } from './entities/mission-agency.entity';
+import { QueryData } from 'src/utils/global/globalInterface';
 
 @Injectable()
 export class MissionAgencyService {
-  create(createMissionAgencyInput: CreateMissionAgencyInput) {
-    return 'This action adds a new missionAgency';
+  constructor(private readonly database: AgencyDatabase) {}
+
+  public create(createMissionAgencyInput: CreateMissionAgencyInput) {
+    return this.database.create({
+      id: uuidv1(),
+      ...createMissionAgencyInput
+    })
   }
 
-  findAll() {
-    return `This action returns all missionAgency`;
+  public findAll() {
+    return this.database.findAll<agency>()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} missionAgency`;
+  public findOne(filter: QueryData) {
+    return this.database.findOne<agency>(filter);
   }
 
-  update(id: number, updateMissionAgencyInput: UpdateMissionAgencyInput) {
-    return `This action updates a #${id} missionAgency`;
+  public update(filter: QueryData, updateMissionAgencyInput: UpdateMissionAgencyInput) {
+    return this.database.update<agency>(updateMissionAgencyInput, filter);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} missionAgency`;
+  public remove(filter: QueryData) {
+    return this.database.remove<agency>(filter)
   }
 }

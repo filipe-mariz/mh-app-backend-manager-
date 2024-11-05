@@ -3,11 +3,11 @@
 # ------------------------------------------------------
 
 type agency {
-  id: String!
+  id: String
   name: String!
   email: String!
   cnpj: String!
-  bio: String!
+  bio: String
 }
 
 type users {
@@ -32,9 +32,10 @@ type AuthorizationToken {
 }
 
 type Query {
-  findAll: [users!]!
-  findOne(id: Int!): users!
-  missionAgency(id: Int!): agency!
+  findAllUsers: [users!]!
+  findOneUser(id: Int!): users!
+  findAllAgency: [agency!]!
+  findOne(id: Int!): agency!
 }
 
 type Mutation {
@@ -42,7 +43,7 @@ type Mutation {
   loginUser(login: LoginUser!): AuthorizationToken!
   updateUser(updateUserInput: UpdateUserInput!): users!
   removeUser(id: Int!): [users!]!
-  createMissionAgency(createMissionAgencyInput: CreateMissionAgencyInput!): agency!
+  createMissionAgency(body: CreateMissionAgencyInput!): agency!
   updateMissionAgency(updateMissionAgencyInput: UpdateMissionAgencyInput!): agency!
   removeMissionAgency(id: Int!): agency!
 }
@@ -73,12 +74,16 @@ input UpdateUserInput {
 }
 
 input CreateMissionAgencyInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
+  email: String!
+  cnpj: String!
+  bio: String
 }
 
 input UpdateMissionAgencyInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  name: String
+  email: String
+  cnpj: String
+  bio: String
   id: Int!
 }

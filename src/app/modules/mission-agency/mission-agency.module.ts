@@ -1,8 +1,30 @@
 import { Module } from '@nestjs/common';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { DatabaseModule } from 'src/database/database.module';
+
 import { MissionAgencyService } from './mission-agency.service';
 import { MissionAgencyResolver } from './mission-agency.resolver';
+import { agency } from './entities/mission-agency.entity';
+import { AgencyDatabase } from './database/agency.database';
+import { AgencyRepository } from './database/agency.repository';
 
 @Module({
-  providers: [MissionAgencyResolver, MissionAgencyService]
+  imports: [
+    SequelizeModule.forFeature([agency]),
+    DatabaseModule,
+  ],
+  providers: [
+    MissionAgencyResolver,
+    MissionAgencyService,
+    {
+      provide: 'USERS_REPOSITORY',
+      useValue: agency,
+    },
+    {
+      provide: AgencyDatabase,
+      useClass: AgencyRepository
+    }
+  ],
+  exports: [SequelizeModule]
 })
 export class MissionAgencyModule {}

@@ -25,12 +25,12 @@ export class UserResolver {
 
   @UseGuards(AuthGuard)
   @Query(() => [users])
-  public findAll() {
+  public findAllUsers() {
     return this.userService.findAll();
   }
 
   @Query(() => users)
-  public findOne(@Args('id', { type: () => Int }) id: number) {
+  public findOneUser(@Args('id', { type: () => Int }) id: number) {
     return this.userService.findOne({ id });
   }
 

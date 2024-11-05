@@ -38,7 +38,7 @@ export class BaseRepository {
     }
 
     const response = await this.repository.findOne({ where });
-    await this.client.set(`${this.cacheKey}_${response.id.toString()}`, JSON.stringify(response));
+    await this.client.set(`${this.cacheKey}_${response.id.toString()}`, JSON.stringify(response), 'EX', 3600);
 
     return response;
   }

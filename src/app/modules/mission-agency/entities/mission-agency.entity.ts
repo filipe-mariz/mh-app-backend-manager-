@@ -7,7 +7,7 @@ import { users } from '../../user/entities/user.entity';
 @Table(defaulTableSettings)
 export class agency extends Model {
   @Column({...primaryKey})
-  @Field()
+  @Field({ nullable: true })
   id: string;
 
   @Column
@@ -23,9 +23,9 @@ export class agency extends Model {
   cnpj: string;
 
   @Column
-  @Field()
+  @Field({ nullable: true })
   bio: string;
 
-  @HasMany(() => users) // Uma agência de missão tem muitos usuários
+  @HasMany(() => users)
   users: users[];
 }

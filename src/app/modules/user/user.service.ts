@@ -22,7 +22,7 @@ export class UserService {
     this.authService = this.client.getService('AuthenticationService');
   };
 
-  public async create(createUserInput: CreateUserInput) {
+  public create(createUserInput: CreateUserInput) {
     if (createUserInput.password !== createUserInput.passwordConfirmation) {
       return {
         code: 'PASSWORD_NOT_MATCH',
@@ -40,7 +40,7 @@ export class UserService {
     });
   }
 
-  public async login(logindData: CreateGrpcClientDto) {
+  public login(logindData: CreateGrpcClientDto) {
     return this.authService.Create({
       siglaApp: 'mh1-mb',
       authType: logindData.authType,
