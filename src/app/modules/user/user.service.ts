@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import * as bcrypt from 'bcrypt';
+import { v1 as uuidv1 } from 'uuid'
 
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
@@ -21,6 +22,7 @@ export class UserService {
     }
 
     return this.database.create({
+      id: uuidv1(),
       name: createUserInput.name,
       email: createUserInput.email,
       cpf: createUserInput.cpf,

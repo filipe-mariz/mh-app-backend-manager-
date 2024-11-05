@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type users {
-  id: Float!
+  id: String!
   name: String!
   email: String!
   cpf: String!

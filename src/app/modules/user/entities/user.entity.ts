@@ -5,9 +5,9 @@ import { defaulTableSettings, primaryKey } from 'src/utils/global/GlobalSequeliz
 @ObjectType()
 @Table(defaulTableSettings)
 export class users extends Model {
-  @Column(primaryKey)
+  @Column({...primaryKey})
   @Field()
-  id: number;
+  id: string;
 
   @Column
   @Field()

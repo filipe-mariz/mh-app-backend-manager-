@@ -14,6 +14,5 @@ export const defaulTableSettings = {
 };
 
 export const primaryKey = {
-    primaryKey: true,
-    autoIncrement: true
+    primaryKey: true
 }
