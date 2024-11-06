@@ -12,7 +12,6 @@ import { AuthGuard } from 'src/app/middlewares/auth/auth.guard';
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(AuthGuard)
   @Mutation(() => users)
   public createUser(@Args('input') body: CreateUserInput) {
     return this.userService.create(body);
@@ -29,16 +28,19 @@ export class UserResolver {
     return this.userService.findAll();
   }
 
+  @UseGuards(AuthGuard)
   @Query(() => users)
-  public findOneUser(@Args('id', { type: () => Int }) id: number) {
+  public findOneUser(@Args('id') id: string) {
     return this.userService.findOne({ id });
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => users)
   public async updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
     return this.userService.update({ id: updateUserInput.id }, updateUserInput);
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => [users])
   public removeUser(@Args('id', { type: () => Int }) id: number) {
     return this.userService.remove({ id });

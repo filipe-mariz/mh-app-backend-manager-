@@ -33,9 +33,9 @@ type AuthorizationToken {
 
 type Query {
   findAllUsers: [users!]!
-  findOneUser(id: Int!): users!
+  findOneUser(id: String!): users!
   findAllAgency: [agency!]!
-  findOne(id: Int!): agency!
+  findOneAgency(id: String!): agency!
 }
 
 type Mutation {

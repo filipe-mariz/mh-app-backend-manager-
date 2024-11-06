@@ -1,6 +1,6 @@
 import { Observable } from "rxjs";
 export interface QueryData {
-    id: number;
+    id: number | string;
 }
 
 export class CreateGrpcClientDto {

@@ -16,11 +16,11 @@ export class MissionAgencyService {
     return this.database.create({
       id: uuidv1(),
       ...createMissionAgencyInput
-    })
+    });
   }
 
   public findAll() {
-    return this.database.findAll<agency>()
+    return this.database.findAll<agency>();
   }
 
   public findOne(filter: QueryData) {
@@ -32,6 +32,6 @@ export class MissionAgencyService {
   }
 
   public remove(filter: QueryData) {
-    return this.database.remove<agency>(filter)
+    return this.database.remove<agency>(filter);
   }
 }

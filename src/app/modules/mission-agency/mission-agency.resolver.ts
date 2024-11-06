@@ -1,9 +1,12 @@
+import { UseGuards } from '@nestjs/common'
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { MissionAgencyService } from './mission-agency.service';
 import { agency } from './entities/mission-agency.entity';
 import { CreateMissionAgencyInput } from './dto/create-mission-agency.input';
 import { UpdateMissionAgencyInput } from './dto/update-mission-agency.input';
+import { AuthGuard } from 'src/app/middlewares/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Resolver(() => agency)
 export class MissionAgencyResolver {
   constructor(private readonly missionAgencyService: MissionAgencyService) { }
@@ -19,7 +22,7 @@ export class MissionAgencyResolver {
   }
 
   @Query(() => agency)
-  public findOne(@Args('id', { type: () => Int }) id: number) {
+  public findOneAgency(@Args('id') id: string) {
     return this.missionAgencyService.findOne({ id });
   }
 
