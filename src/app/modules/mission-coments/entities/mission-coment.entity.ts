@@ -13,7 +13,7 @@ export class mission_coments extends Model {
 
   @Column
   @Field()
-  description: string;
+  text: string;
 
   @ForeignKey(() => users)
   @Column

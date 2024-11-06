@@ -4,7 +4,7 @@
 
 type mission_coments {
   id: String!
-  description: String!
+  text: String!
   user_id: String!
   user: users
   mission_id: String!
@@ -143,6 +143,7 @@ input UpdateMissionInput {
 }
 
 input CreateMissionComentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  text: String!
+  user_id: String!
+  mission_id: String!
 }
