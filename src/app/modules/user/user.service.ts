@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 
 import * as bcrypt from 'bcrypt';
-import { v1 as uuidv1 } from 'uuid'
+import { v1 as uuidv1 } from 'uuid';
 
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';

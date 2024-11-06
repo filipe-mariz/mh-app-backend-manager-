@@ -3,7 +3,10 @@ import { MissionService } from './mission.service';
 import { mission } from './entities/mission.entity';
 import { CreateMissionInput } from './dto/create-mission.input';
 import { UpdateMissionInput } from './dto/update-mission.input';
+import { UseGuards } from '@nestjs/common/decorators/core/use-guards.decorator';
+import { AuthGuard } from 'src/app/middlewares/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Resolver(() => mission)
 export class MissionResolver {
   constructor(private readonly missionService: MissionService) {}
