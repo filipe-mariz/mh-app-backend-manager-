@@ -3,8 +3,9 @@ import { Sequelize } from 'sequelize-typescript';
 import { MongooseModule } from '@nestjs/mongoose';
 import { users } from 'src/app/modules/user/entities/user.entity';
 import { agency } from 'src/app/modules/mission-agency/entities/mission-agency.entity';
+import { mission } from 'src/app/modules/mission/entities/mission.entity';
 
-const models = [agency, users]
+const models = [agency, users, mission]
 
 export const databaseProviders = [
   {

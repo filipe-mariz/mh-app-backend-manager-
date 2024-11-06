@@ -7,6 +7,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './app/modules/user/user.module';
 import { AuthModule } from './app/middlewares/auth/auth.module';
 import { MissionAgencyModule } from './app/modules/mission-agency/mission-agency.module';
+import { MissionModule } from './app/modules/mission/mission.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { MissionAgencyModule } from './app/modules/mission-agency/mission-agency
     mongooseModule,
     UserModule,
     AuthModule,
-    MissionAgencyModule
+    MissionAgencyModule,
+    MissionModule
   ],
   controllers: [AppController],
   providers: [

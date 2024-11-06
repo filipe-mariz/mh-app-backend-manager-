@@ -3,12 +3,12 @@ import Redis from "ioredis";
 
 @Injectable()
 export class BaseRepository {
-	private readonly client: Redis;
-  private repository: any;
-  private cacheKey: string;
+  protected readonly client: Redis;
+  protected repository: any;
+  protected cacheKey: string;
 
   constructor(model: any, cacheKey: string) {
-		this.client = new Redis({ host: 'localhost', port: 6379 });
+    this.client = new Redis({ host: 'localhost', port: 6379 });
     this.repository = model.scope('defaultOptions');
     this.cacheKey = cacheKey;
   }
@@ -32,15 +32,7 @@ export class BaseRepository {
   }
 
   public async findOne(where: any): Promise<any> {
-    const cache = await this.client.get(`${this.cacheKey}_${where.id.toString()}`);
-    if (cache) {
-      return JSON.parse(cache);
-    }
-
-    const response = await this.repository.findOne({ where });
-    await this.client.set(`${this.cacheKey}_${response.id.toString()}`, JSON.stringify(response), 'EX', 3600);
-
-    return response;
+    return this.repository.findOne({ where });
   }
 
   public async update(data: object, where: any) {

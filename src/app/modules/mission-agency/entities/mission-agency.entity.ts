@@ -1,12 +1,13 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 import { Column, HasMany, Table, Model } from 'sequelize-typescript';
 import { defaulTableSettings, primaryKey } from 'src/utils/global/GlobalSequelize';
 import { users } from '../../user/entities/user.entity';
+import { mission } from '../../mission/entities/mission.entity'
 
 @ObjectType()
 @Table(defaulTableSettings)
 export class agency extends Model {
-  @Column({...primaryKey})
+  @Column({ ...primaryKey })
   @Field({ nullable: true })
   id: string;
 
@@ -28,4 +29,11 @@ export class agency extends Model {
 
   @HasMany(() => users)
   users: users[];
+
+  @HasMany(() => mission)
+  missions: mission[];
+
+  @Column
+  @Field()
+  deleted_at: Date;
 }
