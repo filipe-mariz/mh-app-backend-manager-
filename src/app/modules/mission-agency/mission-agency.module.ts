@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { DatabaseModule } from 'src/database/database.module';
+import { join } from 'path';
 
 import { MissionAgencyService } from './mission-agency.service';
 import { MissionAgencyResolver } from './mission-agency.resolver';
@@ -12,6 +14,17 @@ import { AgencyRepository } from './database/agency.repository';
   imports: [
     SequelizeModule.forFeature([agency]),
     DatabaseModule,
+    ClientsModule.register([
+      {
+        name: 'AUTH_SERVICE',
+        transport: Transport.GRPC,
+        options: {
+          package: 'auth',
+          protoPath: join(__dirname, '../../../protos/auth.proto'),
+          url: 'localhost:50051',
+        },
+      },
+    ]),
   ],
   providers: [
     MissionAgencyResolver,

@@ -20,7 +20,7 @@ import { UserDatabase } from './database/user.database';
         transport: Transport.GRPC,
         options: {
           package: 'auth',
-          protoPath: join(__dirname, 'protos/auth.proto'),
+          protoPath: join(__dirname,  '../../../protos/auth.proto'),
           url: 'localhost:50051',
         },
       },

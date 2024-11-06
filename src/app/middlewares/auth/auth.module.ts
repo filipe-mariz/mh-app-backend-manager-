@@ -11,7 +11,7 @@ import { AuthGuard } from './auth.guard';
         transport: Transport.GRPC,
         options: {
           package: 'auth',
-          protoPath: join(__dirname, 'protos/auth.proto'),
+          protoPath: join(__dirname, '../../../protos/auth.proto'),
           url: 'localhost:50051',
         },
       },
