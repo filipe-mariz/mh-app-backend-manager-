@@ -55,6 +55,12 @@ type AuthorizationToken {
   token: String!
 }
 
+type Missionary {
+  id: String
+  preferences: String
+  deleted_at: DateTime!
+}
+
 type Query {
   findAllUsers: [users!]!
   findOneUser(id: String!): users!
@@ -64,6 +70,7 @@ type Query {
   findAllMissionsByAgency(missionAgencyId: String!): [mission!]!
   findOneMission(id: String!, missionAgencyId: String!): mission!
   findAllComents(missionId: String!): [mission_coments!]!
+  missionary(id: Int!): Missionary!
 }
 
 type Mutation {
@@ -78,6 +85,9 @@ type Mutation {
   updateMission(updateMissionInput: UpdateMissionInput!): mission!
   removeMission(id: String!): mission!
   createMissionComent(createMissionComentInput: CreateMissionComentInput!): mission_coments!
+  createMissionary(createMissionaryInput: CreateMissionaryInput!): Missionary!
+  updateMissionary(updateMissionaryInput: UpdateMissionaryInput!): Missionary!
+  removeMissionary(id: Int!): Missionary!
 }
 
 input CreateUserInput {
@@ -146,4 +156,15 @@ input CreateMissionComentInput {
   text: String!
   user_id: String!
   mission_id: String!
+}
+
+input CreateMissionaryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateMissionaryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }

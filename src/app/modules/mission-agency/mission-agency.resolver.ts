@@ -12,7 +12,9 @@ export class MissionAgencyResolver {
   constructor(private readonly missionAgencyService: MissionAgencyService) { }
 
   @Mutation(() => agency)
-  public createMissionAgency(@Args('body') body: CreateMissionAgencyInput) {
+  public createMissionAgency(
+    @Args('body') body: CreateMissionAgencyInput
+  ) {
     return this.missionAgencyService.create(body);
   }
 
@@ -27,8 +29,16 @@ export class MissionAgencyResolver {
   }
 
   @Mutation(() => agency)
-  public updateMissionAgency(@Args('updateMissionAgencyInput') updateMissionAgencyInput: UpdateMissionAgencyInput) {
-    return this.missionAgencyService.update({ id: updateMissionAgencyInput.id }, updateMissionAgencyInput);
+  public updateMissionAgency(
+    @Args('updateMissionAgencyInput')
+    updateMissionAgencyInput: UpdateMissionAgencyInput
+  ) {
+    return this.missionAgencyService.update(
+      {
+        id: updateMissionAgencyInput.id
+      },
+      updateMissionAgencyInput
+    );
   }
 
   @Mutation(() => agency)

@@ -9,6 +9,7 @@ import { AuthModule } from './app/middlewares/auth/auth.module';
 import { MissionAgencyModule } from './app/modules/mission-agency/mission-agency.module';
 import { MissionModule } from './app/modules/mission/mission.module';
 import { MissionComentsModule } from './app/modules/mission-coments/mission-coments.module';
+import { MissionaryModule } from './app/modules/missionary/missionary.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { MissionComentsModule } from './app/modules/mission-coments/mission-come
     AuthModule,
     MissionAgencyModule,
     MissionModule,
-    MissionComentsModule
+    MissionComentsModule,
+    MissionaryModule
   ],
   controllers: [AppController],
   providers: [
